@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color)  {
+        if (image.empty() || image[sr][sc] == color) {
+            return image;
+        }
+        
+        int oldColor = image[sr][sc];
+        dfs(image, sr, sc, oldColor, color);
+        return image;
+    }
+    
+private:
+    void dfs(std::vector<std::vector<int>>& image, int row, int col, int oldColor, int newColor) {
+        if (row < 0 || row >= image.size() || col < 0 || col >= image[0].size() || image[row][col] != oldColor) {
+            return;
+        }
+        
+        image[row][col] = newColor;
+        std::vector<std::pair<int, int>> directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}}; // 4-directional
+        for (const auto& dir : directions) {
+            dfs(image, row + dir.first, col + dir.second, oldColor, newColor);
+        }
+    }
+};
